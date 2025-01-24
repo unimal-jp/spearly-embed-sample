@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コーポレートサンプルサイト</title>
+  <!-- Spearly CMS カスタム埋め込みタグ -->
+  <script src="https://static.spearly.com/js/cms.js" defer></script>
+  <script>window.addEventListener('DOMContentLoaded', () => { const t = document.querySelectorAll(':not(:defined)'); for (const e of t) { e.style.visibility = "hidden"; }; window.spearly.config.AUTH_KEY = "T3kI3cYkKuvBI6yGeBEDxtLAhKQepcCqDh-MgVJpAmk" }, { once: true })</script>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --main-color: rgb(127, 86, 217);
+      --main-color-hover: rgb(107, 66, 197);
+    }
+
+    .news-page {
+      display: none;
+    }
+
+    .news-page.active {
+      display: flex;
+    }
+
+    /* メインカラーの適用 */
+    .navbar {
+      background-color: var(--main-color) !important;
+    }
+
+    .navbar-light .navbar-brand,
+    .navbar-light .nav-link {
+      color: white !important;
+    }
+
+    .navbar-light .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .navbar-light .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .btn-primary {
+      background-color: var(--main-color) !important;
+      border-color: var(--main-color) !important;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--main-color-hover) !important;
+      border-color: var(--main-color-hover) !important;
+    }
+
+    .btn-outline-primary {
+      color: var(--main-color) !important;
+      border-color: var(--main-color) !important;
+    }
+
+    .btn-outline-primary:hover {
+      color: white !important;
+      background-color: var(--main-color) !important;
+    }
+
+    /* ナビゲーションアイコン */
+    .nav-icon {
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+    }
+
+    /* メインビジュアル */
+    .main-visual {
+      height: 400px;
+      width: 100%;
+    }
+
+    /* カード内のカルーセル用スタイル */
+    .card-swiper {
+      height: 200px;
+      width: 100%;
+    }
+
+    .card-swiper .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-swiper .swiper-pagination-bullet-active {
+      background-color: var(--main-color);
+    }
+
+    .card-swiper .swiper-button-next,
+    .card-swiper .swiper-button-prev {
+      color: var(--main-color);
+      transform: scale(0.7);
+    }
+
+    .card-swiper .swiper-button-next:after,
+    .card-swiper .swiper-button-prev:after {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">コーポレートサンプルサイト</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">ホーム</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#news">お知らせ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">会社概要</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">お問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- メインビジュアル（Swiperカルーセル） -->
+  <div class="main-visual main-visual-swiper swiper">
+    <div class="swiper-wrapper">
+      <div cms-loop cms-content-type="001-sample-corporate-main-visual-images" class="swiper-slide">
+        <img src="{%= 001-sample-corporate-main-visual-images_image %}" alt="スライド1" class="w-100">
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- お知らせセクション -->
+  <section id="news" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">お知らせ（カルーセル）</h2>
+      <div class="news-container">
+        <div class="news-page row active">
+          <div cms-loop cms-content-type="001-sample-corporate-post" class="col-md-4 mb-4">
+            <div class="card">
+              <div class="content-thumbnail-swiper card-swiper swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-1 %}" alt="ニュース1-1">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-2 %}" alt="ニュース1-2">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-3 %}" alt="ニュース1-3">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-4 %}" alt="ニュース1-4">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-5 %}" alt="ニュース1-5">
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+              </div>
+              <div class="card-body">
+                <div class="small text-muted">{%= 001-sample-corporate-post_date %}</div>
+                <h5 class="card-title">{%= 001-sample-corporate-post_title %}</h5>
+                <p class="card-text">{%= 001-sample-corporate-post_description %}</p>
+                <a href="#" class="btn btn-primary">詳細を見る</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="bg-dark text-light py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>コーポレートサンプルサイト</h5>
+          <p>〒100-0001<br>
+            東京都千代田区千代田1-1-1<br>
+            TEL: 03-1234-5678</p>
+        </div>
+        <div class="col-md-6">
+          <h5>リンク</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-light">プライバシーポリシー</a></li>
+            <li><a href="#" class="text-light">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <small>&copy; 2024 Corporate Sample Site. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+  <!-- ニュースページング処理 -->
+
+  <!-- カルーセル初期化 -->
+  <script>
+    // Spearly CMSの初期化後にSwiperを初期化
+    // spearlyCmsAfterInitイベントは、Spearly CMSの初期化が完了した後に発火します
+    window.addEventListener("spearlyCmsAfterInit", () => {
+      initMainVisualSwiper();
+      initContentsThumbnailSwiper();
+    });
+
+    const initMainVisualSwiper = () => {
+      const swiper = new Swiper(".main-visual-swiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+      });
+    }
+
+    const initContentsThumbnailSwiper = () => {
+      // .content-thumbnail-swiperの中で、DEFAULT_IMAGE_URLの画像を含むものを削除する処理
+      // Spearly CMSでは、画像が未設定の場合、デフォルト画像が設定されるため、それを削除します
+      const DEFAULT_IMAGE_URL = "https://static.spearly.com/images/default-image.png";
+      document.querySelectorAll(".content-thumbnail-swiper img").forEach((img) => {
+        if (img.src === DEFAULT_IMAGE_URL) {
+          img.parentElement.remove();
+        }
+      });
+
+      const swiper = new Swiper(".content-thumbnail-swiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+      });
+    }
+  </script>
+</body>
+
+</html>
