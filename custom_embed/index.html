@@ -102,6 +102,12 @@
       font-weight: bold;
     }
 
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
     .no-content-message {
       text-align: center;
     }
@@ -138,7 +144,7 @@
   <!-- メインビジュアル（Swiperカルーセル） -->
   <div class="main-visual main-visual-swiper swiper">
     <div class="swiper-wrapper">
-      <div cms-loop cms-content-type="001-sample-corporate-main-visual-images" class="swiper-slide">
+      <div cms-loop cms-content-type="001-sample-corporate-main-visual-images" class="swiper-slide" id="main-visual-slide-embed">
         <img src="{%= 001-sample-corporate-main-visual-images_image %}" alt="スライド1" class="w-100">
       </div>
     </div>
@@ -153,7 +159,7 @@
       <h2 class="text-center mb-4">お知らせ（カルーセル）</h2>
       <div class="news-container">
         <div class="news-list row">
-          <div cms-loop cms-content-type="001-sample-corporate-post" class="col-md-4 mb-4">
+          <div cms-loop cms-content-type="001-sample-corporate-post" class="col-md-4 mb-4" id="news-content-embed">
             <div class="card">
               <div class="content-thumbnail-swiper card-swiper swiper">
                 <div class="swiper-wrapper">
@@ -190,12 +196,12 @@
   </section>
 
   <!-- コンテンツが一つもない場合の表示サンプル -->
-  <section id="news" class="py-5">
+  <section id="news-empty" class="py-5">
     <div class="container">
       <h2 class="text-center mb-4">お知らせ（コンテンツがない場合）</h2>
       <div class="news-container">
         <div class="news-list row">
-          <div cms-loop cms-content-type="001-sample-corporate-post-empty" class="col-md-4 mb-4">
+          <div cms-loop cms-content-type="001-sample-corporate-post-empty" class="col-md-4 mb-4" id="news-content-empty-embed">
             <div class="card">
               <div class="content-thumbnail-swiper card-swiper swiper">
                 <div class="swiper-wrapper">
@@ -231,6 +237,49 @@
       </div>
   </section>
 
+  <!-- タグの表示カスタマイズサンプル -->
+  <section id="news" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">お知らせ（タグ表示のカスタマイズ）</h2>
+      <div class="news-container">
+        <div class="news-list row">
+          <div cms-loop cms-content-type="001-sample-corporate-post" class="col-md-4 mb-4" id="news-content-tag-embed">
+            <div class="card">
+              <div class="content-thumbnail-swiper card-swiper swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-1 %}" alt="ニュース1-1">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-2 %}" alt="ニュース1-2">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-3 %}" alt="ニュース1-3">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-4 %}" alt="ニュース1-4">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="{%= 001-sample-corporate-post_image-5 %}" alt="ニュース1-5">
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+              </div>
+              <div class="card-body">
+                <div class="small text-muted">{%= 001-sample-corporate-post_date %}</div>
+                <h5 class="card-title">{%= 001-sample-corporate-post_title %}</h5>
+                <p class="card-text">{%= 001-sample-corporate-post_description %}</p>
+                <div class="card-tags">{%= 001-sample-corporate-post_tag %}</div>
+                <a href="#" class="btn btn-primary">詳細を見る</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
   <!-- フッター -->
   <footer class="bg-dark text-light py-4">
     <div class="container">
@@ -250,7 +299,7 @@
         </div>
       </div>
       <div class="text-center mt-3">
-        <small>&copy; 2024 Corporate Sample Site. All rights reserved.</small>
+        <small>Photos by <a href="https://unsplash.com">Unsplash</a></small>
       </div>
     </div>
   </footer>
@@ -265,10 +314,15 @@
   <script>
     // Spearly CMSの初期化後にSwiperを初期化
     // spearlyCmsAfterInitイベントは、Spearly CMSの初期化が完了した後に発火します
-    window.addEventListener("spearlyCmsAfterInit", () => {
+    window.addEventListener("spearlyCmsAfterInit", (event) => {
+      const finishedId = event.cmsTarget.id;
+      console.log(`${finishedId}の埋め込み処理が完了しました`);
       initMainVisualSwiper();
       initContentsThumbnailSwiper();
       checkEmptyContents();
+      if(finishedId === "news-content-tag-embed") {
+        insertTagHtml();
+      }
     });
 
     const initMainVisualSwiper = () => {
@@ -327,6 +381,19 @@
         if (newsContainer.querySelectorAll("div").length === 0) {
           newsContainer.innerHTML = "<p class='no-content-message'>お知らせはありません。</p>";
         }
+      });
+    }
+
+    const insertTagHtml = () => {
+      // タグが埋め込まれている要素を取得
+      const tagElements = document.querySelectorAll(".card-tags");
+
+      tagElements.forEach(tagElement => {
+        // タグをカンマ区切りで分割
+        const tags = tagElement.textContent.split(",");
+        console.log(tags.map(tag => `<span class="badge bg-primary me-1">${tag.trim()}</span>`).join(""));
+        // タグを表示するHTMLを生成
+        tagElement.innerHTML = tags.map(tag => `<span class="badge bg-primary me-1">${tag.trim()}</span>`).join("");
       });
     }
   </script>
